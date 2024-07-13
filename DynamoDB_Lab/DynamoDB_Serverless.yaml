@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: DynamoDB_Template
+Resources:
+  UserDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: User_Order
+      AttributeDefinitions:
+        - AttributeName: user_id
+          AttributeType: S
+        - AttributeName: order_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: user_id
+          KeyType: HASH
+        - AttributeName: order_id
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableClass: STANDARD
+
