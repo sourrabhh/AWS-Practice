@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: DynamoDB_Template
+
 Resources:
   UserDynamoDBTable:
     Type: AWS::DynamoDB::Table
@@ -8,15 +9,27 @@ Resources:
       AttributeDefinitions:
         - AttributeName: user_id
           AttributeType: S
-        - AttributeName: order_id
+        - AttributeName: product_id
           AttributeType: S
       KeySchema:
         - AttributeName: user_id
           KeyType: HASH
-        - AttributeName: order_id
+        - AttributeName: product_id
           KeyType: RANGE
-      ProvisionedThroughput: 
+      BillingMode: PROVISIONED
+      ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-      TableClass: STANDARD
-
+      TableClass: STANDARD_INFREQUENT_ACCESS
+      GlobalSecondaryIndexes:
+        - IndexName: product_id-user_id-index
+          KeySchema:
+            - AttributeName: product_id
+              KeyType: HASH
+            - AttributeName: user_id
+              KeyType: RANGE
+          Projection: 
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
